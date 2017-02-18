@@ -51,6 +51,7 @@ task :deploy do
     invoke :'git:clone'
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
+    command %{npm install}
     invoke :'rails:db_migrate'
     invoke :'rails:assets_precompile'
     invoke :'deploy:cleanup'
@@ -59,13 +60,15 @@ task :deploy do
       in_path(fetch(:current_path)) do
         command %{mkdir -p tmp/}
         command %{touch tmp/restart.txt}
-        invoke :'puma:phased_restart'
+        invoke :'puma:hard_restart'
+        # sleep some time to make puma run successfully
+        command %{sleep 1}
       end
     end
   end
 
   # you can use `run :local` to run tasks on local machine before of after the deploy scripts
-  run(:local){ say 'done' }
+  # run(:local){ say 'done' }
 end
 
 # For help in making your deploy script, see the Mina documentation:
