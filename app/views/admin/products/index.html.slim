@@ -1,0 +1,65 @@
+div.panel.panel-default
+  div.panel-heading 搜索
+  div.panel-body
+    = search_form_for [:admin, @q] do |f|
+      div.form-group.clearfix
+        div.col-sm-6
+          = f.search_field :name_cont, class: 'form-control', placeholder: '名称'
+        div.col-sm-6
+          = f.search_field :id_eq, class: 'form-control', placeholder: 'ID'
+
+      div.form-group.clearfix
+        div.col-sm-6
+          select.form-control.state-select placeholder='搜索状态' multiple=true name="q[state_in][]"
+            - Product.states.each do |state|
+              option selected=(!params[:q][:state_in].nil? && params[:q][:state_in].include?(state[1].to_s)) value=state[1] data-data={id: state[1], name: t(state[0])}.to_json
+
+      div.form-group.clearfix
+        div.col-sm-1
+          button.btn.btn-default type="submit" 搜索
+
+        div.col-sm-1
+          = link_to '重置', admin_products_path, class: 'btn btn-default'
+
+div.panel.panel-default
+  div.panel-heading
+    span style="margin-right: 10px" 产品列表
+    a.btn.btn-default href=new_admin_product_path
+      span.glyphicon.glyphicon-plus
+
+  div.panel-body
+    table.table.table-striped
+      thead
+        tr
+          th = sort_link(@q, :id, 'ID', default_order: :desc)
+          th 名称
+          th 状态
+          th 修改时间
+          th 操作
+      tbody
+        - @products.each do |p|
+          tr
+            td = p.id
+            td = p.name
+            td = t(p.state)
+            td
+              time.timeago datetime=(p.updated_at ? p.updated_at.iso8601 : nil)
+                = p.updated_at
+            td
+              = link_to '编辑', edit_admin_product_path(p), class: 'btn btn-default'
+    = paginate @products, theme: 'twitter-bootstrap-3'
+
+javascript:
+  $(function() {
+    $('.state-select').selectize({
+      valueField: 'id',
+      labelField: 'name',
+      searchField: ['name'],
+      render: {
+        option: function(state, escape) {
+          console.log('test');
+          return '<div>' + escape(state.name) + '</div>';
+        }
+      }
+    });
+  });

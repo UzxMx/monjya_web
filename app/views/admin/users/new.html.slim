@@ -1,0 +1,4 @@
+= form_for [:admin, @user], html: { class: 'form-horizontal' } do |f|
+  div.panel.panel-default
+    div.panel-heading 新增用户
+    = render partial: 'form', locals: {f: f}

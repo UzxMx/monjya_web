@@ -1,0 +1,57 @@
+div.panel-body
+  div.form-group
+    = f.label :name, '名称', class: 'col-sm-2 control-label'
+    div.col-sm-6
+      = f.text_field :name, class: 'form-control', placeholder: '名称', required: true
+    = f.label :state, '状态', class: 'col-sm-2 control-label'
+    div.col-sm-2
+      = f.select :state, Product.states.map { |state| [t(state[0]), state[0]] }, {}, {class: 'form-control'}
+
+  div.form-group
+    = f.label :thumb_photo_id, '缩略图', class: 'col-sm-2 control-label'
+    div.col-sm-2
+      = f.text_field :thumb_photo_id, class: 'form-control', placeholder: '图片ID'
+    div.col-sm-1
+      span.btn.btn-default#upload_btn
+        span.glyphicon.glyphicon-picture
+    div.col-sm-3
+      - if @product.thumb_photo
+        a href=@product.thumb_photo.url target="_blank"
+          img.img-thumbnail src=@product.thumb_photo.url('?imageView2/1/w/320/h/100')
+
+  div.form-group
+    = f.label :brief_description, '简短描述', class: 'col-sm-2 control-label'
+    div.col-sm-10
+      = f.text_field :brief_description, class: 'form-control', placeholder: '简短描述', required: true
+
+  div.form-group
+    = f.label :address, '地址', class: 'col-sm-2 control-label'
+    div.col-sm-10
+      = f.text_field :address, class: 'form-control', placeholder: '地址', required: true      
+
+  div.form-group
+    = f.label :open_time, '开放时间', class: 'col-sm-2 control-label'
+    div.col-sm-10
+      = f.text_field :open_time, class: 'form-control', placeholder: '开放时间', required: true       
+
+  div.form-group
+    = f.label :price, '价格', class: 'col-sm-2 control-label'
+    div.col-sm-4
+      = f.number_field :price, class: 'form-control', placeholder: '价格', required: true
+    = f.label :rate, '推荐值', class: 'col-sm-2 control-label'
+    div.col-sm-4
+      = f.number_field :rate, class: 'form-control', placeholder: '推荐值', required: true
+
+  div.form-group
+    = f.label :details, '详情', class: 'col-sm-2 control-label'
+    div.col-sm-10
+      = f.text_area :details, 'data-provider': 'summernote'
+
+  div.form-group
+      div.col-sm-10.col-sm-offset-2
+        button.btn.btn-default type='submit' 提交      
+
+javascript:
+  $(function() {
+    init_single_plupload('upload_btn', '#{generate_qiniu_uptoken("product", @product.id, "no_op")}', 'imageView2/1/w/320/h/100');
+  });

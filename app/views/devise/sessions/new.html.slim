@@ -1,0 +1,34 @@
+- flash.each do |name, msg|
+  - if msg.is_a?(String) && msg.present?
+    javascript:
+      $.bootstrapGrowl("#{msg}", {
+        type: '#{name.to_s == "notice" ? "success" : "danger"}',
+        align: 'center',
+        offset: {from: 'top', amount: 0}
+      });
+
+div.container style="width: 500px; margin-top: 100px;"
+  h3 style="text-align: center; margin-bottom: 30px;"
+    | 登录
+  = form_for resource, as: resource_name, url: session_path(resource_name), html: {class: 'form-horizontal'} do |f|
+    div.form-group
+      = f.label :email, "邮箱", class: 'col-sm-2 control-label'
+      div.col-sm-10
+        = f.email_field :email, autofocus: true, class: 'form-control', placeholder: '邮箱', required: true
+
+    div.form-group
+      = f.label :password, "密码", class: 'col-sm-2 control-label'
+      div.col-sm-10
+        = f.password_field :password, autocomplete: "off", class: 'form-control', placeholder: '密码', required: true
+
+    - if devise_mapping.rememberable?
+      div.form-group
+        div.col-sm-offset-2.col-sm-10
+          div.checkbox
+            label
+              = f.check_box :remember_me
+              = f.label :remember_me, "记住我", style: 'padding-left: 0;'
+
+    div.form-group
+      div.col-sm-offset-2.col-sm-10
+        = f.submit "登录", class: "btn btn-default"
