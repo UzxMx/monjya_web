@@ -7,4 +7,8 @@ Rails.application.routes.draw do
     get '/', to: 'products#index'
     resources :users, :products
   end
+
+  namespace :api do
+    post 'qiniu/callback' => 'qiniu#callback'
+  end
 end
