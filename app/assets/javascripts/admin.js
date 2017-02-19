@@ -105,7 +105,7 @@ window.init_single_plupload = function (elId, token, crop) {
         var data = $.parseJSON(result.response);
         var $p = $el.parent();
         $p.find('.uploading').remove();
-        $p.next().html("<img class='img-thumbnail' src='" + data.url + "?" + crop + "'/>");
+        $p.next().html("<a href='" + data.url + "' target='_blank'><img class='img-thumbnail' src='" + data.url + "?" + crop + "'/></a>");
         $p.prev().children().first().val(data.id);
       },
 

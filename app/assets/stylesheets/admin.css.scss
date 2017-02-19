@@ -31,3 +31,12 @@ body {
   margin-left: 0;
   margin-right: 0;
 }
+
+.uploading {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: #FFF image-url('ajax-loader-16.gif') no-repeat center;
+}
