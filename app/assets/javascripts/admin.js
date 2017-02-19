@@ -74,7 +74,7 @@ window.init_single_plupload = function (elId, token, crop) {
 
     multi_selection: false,
 
-    url : "http://upload.qiniu.com",
+    url : "http://up-z1.qiniu.com",
 
     filters : {
       max_file_size : '10mb',
