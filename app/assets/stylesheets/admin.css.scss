@@ -33,10 +33,11 @@ body {
 }
 
 .uploading {
-  position: absolute;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
   background: #FFF image-url('ajax-loader-16.gif') no-repeat center;
+  background-size: 100%;
+  width: 25px;
+  height: 25px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 5px;
 }
