@@ -49,9 +49,9 @@ div.panel-body
 
   div.form-group
       div.col-sm-10.col-sm-offset-2
-        button.btn.btn-default type='submit' 提交      
+        button.btn.btn-default type='submit' 提交
 
 javascript:
-  $(function() {
-    init_single_plupload('upload_btn', '#{generate_qiniu_uptoken("product", @product.id, "no_op")}', 'imageView2/1/w/320/h/100');
+  $(document).on("turbolinks:load", function() {
+    init_plupload($("#upload_btn"), '#{generate_qiniu_uptoken("product", @product.id, "no_op")}', 'imageView2/1/w/320/h/100');
   });

@@ -5,10 +5,17 @@ Rails.application.routes.draw do
 
   namespace 'admin' do
     get '/', to: 'products#index'
-    resources :users, :products
+    resources :users
+    resources :products do
+      member do
+        post 'create_photo'
+      end      
+    end
   end
 
   namespace :api do
     post 'qiniu/callback' => 'qiniu#callback'
+
+    resources :products
   end
 end

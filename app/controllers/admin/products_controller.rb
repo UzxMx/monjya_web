@@ -9,12 +9,17 @@ class Admin::ProductsController < Admin::BaseController
   end
 
   def create
-    Product.create(create_params)
-    redirect_to admin_products_path
+    product = Product.create(create_params)
+    redirect_to edit_admin_product_path(product), notice: '操作成功'
   end
 
   def update
     @product.update_attributes(update_params)
+    redirect_to :back, notice: '操作成功'
+  end
+
+  def create_photo
+    ProductPhoto.create(product: @product)
     redirect_to :back, notice: '操作成功'
   end
 

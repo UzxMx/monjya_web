@@ -14,6 +14,7 @@
 //= require const
 //= require jquery
 //= require jquery_ujs
+//= require turbolinks
 //= require bootstrap-sprockets
 //= require summernote
 //= require summernote/locales/zh-CN
@@ -60,59 +61,61 @@ function admin_init() {
   });
 }
 
-$(document).on("ready", function() {
+$(document).on("turbolinks:load", function() {
   admin_init();
 });
 
-window.init_single_plupload = function (elId, token, crop) {
-  var $el = $('#' + elId);
-  var uploader = new plupload.Uploader({
-    runtimes : 'html5',
+window.init_plupload = function (jqyObj, token, crop) {
+  jqyObj.each(function() {
+    var $el = $(this);
+    var uploader = new plupload.Uploader({
+      runtimes : 'html5',
 
-    browse_button : $el[0], // you can pass in id...
-    container: $el.parent()[0], // ... or DOM Element itself
+      browse_button : $el[0], // you can pass in id...
+      container: $el.parent()[0], // ... or DOM Element itself
 
-    multi_selection: false,
+      multi_selection: false,
 
-    url : "http://up-z1.qiniu.com",
+      url : "http://up-z1.qiniu.com",
 
-    filters : {
-      max_file_size : '10mb',
-      mime_types: [
-        {title : "JPG/PNG文件", extensions : "jpg,jpeg,JPG,JPEG,png,PNG"}
-      ]
-    },
-
-    multipart_params : {
-      token: token
-    },
-
-    resize: {
-      width: 1600,
-      height: 1600
-    },
-
-    // Flash settings
-    flash_swf_url : __flash_swf_url,
-
-    init: {
-      FilesAdded: function(up, files) {
-        $el.parent().append('<div class="uploading"></div>');
-        up.start();
+      filters : {
+        max_file_size : '10mb',
+        mime_types: [
+          {title : "JPG/PNG文件", extensions : "jpg,jpeg,JPG,JPEG,png,PNG"}
+        ]
       },
 
-      FileUploaded: function(up, file, result) {
-        var data = $.parseJSON(result.response);
-        var $p = $el.parent();
-        $p.find('.uploading').remove();
-        $p.next().html("<a href='" + data.url + "' target='_blank'><img class='img-thumbnail' src='" + data.url + "?" + crop + "'/></a>");
-        $p.prev().children().first().val(data.id);
+      multipart_params : {
+        token: token
       },
 
-      Error: function(up, err) {
-        bootbox.alert($.parseJSON(err.response).error);
+      resize: {
+        width: 1600,
+        height: 1600
+      },
+
+      // Flash settings
+      flash_swf_url : __flash_swf_url,
+
+      init: {
+        FilesAdded: function(up, files) {
+          $el.parent().append('<div class="uploading"></div>');
+          up.start();
+        },
+
+        FileUploaded: function(up, file, result) {
+          var data = $.parseJSON(result.response);
+          var $p = $el.parent();
+          $p.find('.uploading').remove();
+          $p.next().html("<a href='" + data.url + "' target='_blank'><img class='img-thumbnail' src='" + data.url + "?" + crop + "'/></a>");
+          $p.prev().children().first().val(data.id);
+        },
+
+        Error: function(up, err) {
+          bootbox.alert($.parseJSON(err.response).error);
+        }
       }
-    }
+    });
+    uploader.init();
   });
-  uploader.init();
 };

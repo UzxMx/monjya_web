@@ -1,4 +1,34 @@
-= form_for [:admin, @product], html: {class: 'form-horizontal', 'data-toggle'=> 'validator'} do |f|
+= form_for [:admin, @product], html: {class: 'form-horizontal'} do |f|
   div.panel.panel-default
     div.panel-heading 编辑产品
     = render partial: 'form', locals: {f: f}
+
+div.panel.panel-default
+  div.panel-heading 
+    | 图片列表
+    = link_to create_photo_admin_product_path(@product), method: :post, class: 'btn btn-default', style: 'margin-left: 10px;' do
+      span.glyphicon.glyphicon-plus
+  div.panel-body
+    - unless @product.photos.empty?
+      = form_for [:admin, @product], html: {class: 'form-horizontal'} do |f|
+        - @product.photos.each.with_index do |photo, i|
+          = f.fields_for :photos, photo do |ff|
+            div.form-group
+              = ff.label :photo_id, "图片#{i + 1}", class: 'col-sm-2 control-label'
+              div.col-sm-2
+                = ff.text_field :photo_id, placeholder: '图片ID', class: 'form-control'
+              div.col-sm-2
+                span.btn.btn-default.btn-upload
+                  span.glyphicon.glyphicon-picture
+              div.col-sm-3
+                - if photo.photo
+                  a href=photo.photo.url target="_blank"
+                    img.img-thumbnail src=photo.photo.url('?imageView2/1/w/320/h/100')
+        div.form-group
+          div.col-sm-10.col-sm-offset-2
+            = f.submit '提交', class: 'btn btn-default'
+
+javascript:
+  $(document).on("turbolinks:load", function() {
+    init_plupload($(".btn-upload"), '#{generate_qiniu_uptoken("product", @product.id, "no_op")}', 'imageView2/1/w/320/h/100');
+  });
