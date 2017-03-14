@@ -1,0 +1,2 @@
+class TravelAgent < ApplicationRecord
+end

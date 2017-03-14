@@ -6,4 +6,12 @@ class User < ApplicationRecord
 
   enum role: {member: 100, admin: 200}
   ransacker :role, formatter: proc {|v| roles[v]}
+
+  has_one :user_travel_agent
+  has_many :visitors
+  has_many :orders
+
+  def auth_token
+    [id, Digest::MD5.hexdigest(encrypted_password)].join(":")
+  end
 end

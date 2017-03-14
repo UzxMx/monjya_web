@@ -31,6 +31,7 @@ class Ability
     if user.admin?
         can :manage, User
         can :manage, Product
+        can :manage, TravelAgent
     end
   end
 end

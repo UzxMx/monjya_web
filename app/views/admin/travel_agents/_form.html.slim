@@ -1,0 +1,9 @@
+= form_for [:admin, @travel_agent], html: {class: 'form-horizontal'} do |f|
+  div.form-group
+    = f.label :name, '名称', class: 'col-sm-2 control-label'
+    div.col-sm-10
+      = f.text_field :name, placeholder: '名称', class: 'form-control', required: true
+
+  div.form-group
+    div.col-sm-offset-2.col-sm-10
+      = f.submit '提交', class: 'btn btn-default'

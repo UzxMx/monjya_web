@@ -1,0 +1,1 @@
+json.partial! partial: 'show', locals: {order: @order}

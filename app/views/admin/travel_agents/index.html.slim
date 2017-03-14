@@ -1,0 +1,39 @@
+div.panel.panel-default
+  div.panel-heading 搜索
+  div.panel-body
+    = search_form_for [:admin, @q] do |f|
+      div.form-group.clearfix
+        div.col-sm-6
+          = f.search_field :name_cont, class: 'form-control', placeholder: '名称'
+        div.col-sm-6
+          = f.search_field :id_eq, class: 'form-control', placeholder: 'ID'
+
+      div.form-group.clearfix
+        div.col-sm-1
+          button.btn.btn-default type="submit" 搜索
+
+        div.col-sm-1
+          = link_to '重置', admin_travel_agents_path, class: 'btn btn-default'
+
+div.panel.panel-default
+  div.panel-heading
+    span style="margin-right: 10px" 旅行社列表
+    a.btn.btn-default href=new_admin_travel_agent_path
+      span.glyphicon.glyphicon-plus
+
+  div.panel-body
+    table.table.table-striped
+      thead
+        tr
+          th = sort_link(@q, :id, 'ID', default_order: :desc)
+          th 名称
+          th 操作
+      tbody
+        - @travel_agents.each do |agent|
+          tr
+            td = agent.id
+            td = agent.name
+            td
+              = link_to '编辑', edit_admin_travel_agent_path(agent), class: 'btn btn-default'
+
+    = paginate @travel_agents, theme: 'twitter-bootstrap-3'

@@ -20,6 +20,9 @@ html lang="zh-CN"
             - if can? :manage, Product
               li class=(controller_name == 'products' ? 'active' : '') 
                 = link_to '产品', admin_products_path
+            - if can? :manage, TravelAgent
+              li class=(controller_name == 'travel_agents' ? 'active' : '')
+                = link_to '旅行社', admin_travel_agents_path
             - if can? :manage, User
               li class=(controller_name == 'users' ? 'active' : '')
                 = link_to '用户', admin_users_path
